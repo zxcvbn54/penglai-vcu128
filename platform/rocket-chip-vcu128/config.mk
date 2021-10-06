@@ -42,14 +42,14 @@ FW_TEXT_START=0x80000000
 # Optional parameters are commented out. Uncomment and define these parameters
 # as needed.
 #
-FW_DYNAMIC=<y|n>
+FW_DYNAMIC=n
 
 #
 # Jump firmware configuration.
 # Optional parameters are commented out. Uncomment and define these parameters
 # as needed.
 #
-FW_JUMP=<y|n>
+FW_JUMP=y
 # This needs to be 4MB aligned for 32-bit support
 # This needs to be 2MB aligned for 64-bit support
 # ifeq ($(PLATFORM_RISCV_XLEN), 32)
@@ -57,6 +57,7 @@ FW_JUMP=<y|n>
 # else
 # FW_JUMP_ADDR=0x80200000
 # endif
+FW_JUMP_ADDR=0x80200000
 # FW_JUMP_FDT_ADDR=0x82200000
 
 #
@@ -64,7 +65,7 @@ FW_JUMP=<y|n>
 # Optional parameters are commented out. Uncomment and define these parameters
 # as needed.
 #
-FW_PAYLOAD=<y|n>
+FW_PAYLOAD=n
 # This needs to be 4MB aligned for 32-bit support
 # This needs to be 2MB aligned for 64-bit support
 ifeq ($(PLATFORM_RISCV_XLEN), 32)

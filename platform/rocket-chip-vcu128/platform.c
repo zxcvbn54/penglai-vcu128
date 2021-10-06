@@ -21,8 +21,8 @@
 #define PLATFORM_PLIC_NUM_SOURCES	128
 #define PLATFORM_HART_COUNT		4
 #define PLATFORM_CLINT_ADDR		0x2000000
-#define PLATFORM_UART_ADDR		0x09000000
-#define PLATFORM_UART_INPUT_FREQ	10000000
+#define PLATFORM_UART_ADDR		0x60201000
+#define PLATFORM_UART_INPUT_FREQ	100000000
 #define PLATFORM_UART_BAUDRATE		115200
 
 static struct plic_data plic = {
@@ -60,7 +60,7 @@ static int platform_console_init(void)
 {
 	/* Example if the generic UART8250 driver is used */
 	return uart8250_init(PLATFORM_UART_ADDR, PLATFORM_UART_INPUT_FREQ,
-			     PLATFORM_UART_BAUDRATE, 0, 1);
+			     PLATFORM_UART_BAUDRATE, 2, 1);
 }
 
 /*
