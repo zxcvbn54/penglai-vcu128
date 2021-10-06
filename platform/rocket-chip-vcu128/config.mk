@@ -65,7 +65,7 @@ FW_JUMP_ADDR=0x80200000
 # Optional parameters are commented out. Uncomment and define these parameters
 # as needed.
 #
-FW_PAYLOAD=n
+FW_PAYLOAD=y
 # This needs to be 4MB aligned for 32-bit support
 # This needs to be 2MB aligned for 64-bit support
 ifeq ($(PLATFORM_RISCV_XLEN), 32)
