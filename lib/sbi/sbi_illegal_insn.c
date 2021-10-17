@@ -38,6 +38,22 @@ static int system_opcode_insn(ulong insn, struct sbi_trap_regs *regs)
 	int csr_num   = (u32)insn >> 20;
 	ulong csr_val, new_csr_val;
 
+	// handle cflush.d.l1 instruction here
+	// code is learned from https://blog.csdn.net/a_weiming/article/details/116090948
+	if ((insn & 0xFFF07FFF) == 0xFC000073) {
+		if (rs1_num == 0) {
+			// clush.d.l1 x0
+			asm volatile(".word 0xfc000073" ::: "memory");
+		} else {
+			register ulong rs1_ asm("x13") = rs1_val;
+			// cflush.d.l1 x13
+			asm volatile(".word 0xfc068073" ::[_rs1] "r"(rs1_)
+				     : "memory");
+		}
+		regs->mepc += 4;
+		return 0;
+	}
+
 	/* TODO: Ensure that we got CSR read/write instruction */
 
 	if (sbi_emulate_csr_read(csr_num, regs, &csr_val))
