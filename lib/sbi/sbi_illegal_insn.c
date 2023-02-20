@@ -38,33 +38,6 @@ static int system_opcode_insn(ulong insn, struct sbi_trap_regs *regs)
 	int csr_num   = (u32)insn >> 20;
 	ulong csr_val, new_csr_val;
 
-	// handle cflush.d.l1 instruction here
-	// code is learned from https://blog.csdn.net/a_weiming/article/details/116090948
-	if ((insn & 0xFFF07FFF) == 0xFC000073) {
-		if (rs1_num == 0) {
-			// clush.d.l1 x0
-			asm volatile(".word 0xfc000073" ::: "memory");
-		} else {
-			// learned from https://github.com/sifive/freedom-metal/blob/master/src/cache.c
-			// ignore virtual memory access fault
-			uintptr_t ms1 = 0, ms2 = 0;
-			__asm__ __volatile__(
-				"csrr %0, mtvec \n\t"
-				"la %1, 1f \n\t"
-				"csrw mtvec, %1 \n\t"
-				".insn i 0x73, 0, x0, %2, -0x40 \n\t"
-				".align 2\n\t"
-				"1: \n\t"
-				"csrw mtvec, %0 \n\t"
-				: "+r"(ms1), "+r"(ms2)
-				: "r"(rs1_val));
-			// Using ‘.insn’ pseudo directive:
-			//       '.insn i opcode, func3, rd, rs1, simm12'
-		}
-		regs->mepc += 4;
-		return 0;
-	}
-
 	/* TODO: Ensure that we got CSR read/write instruction */
 
 	if (sbi_emulate_csr_read(csr_num, regs, &csr_val))
