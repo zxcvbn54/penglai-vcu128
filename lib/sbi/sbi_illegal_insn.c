@@ -45,10 +45,21 @@ static int system_opcode_insn(ulong insn, struct sbi_trap_regs *regs)
 			// clush.d.l1 x0
 			asm volatile(".word 0xfc000073" ::: "memory");
 		} else {
-			register ulong rs1_ asm("x13") = rs1_val;
-			// cflush.d.l1 x13
-			asm volatile(".word 0xfc068073" ::[_rs1] "r"(rs1_)
-				     : "memory");
+			// learned from https://github.com/sifive/freedom-metal/blob/master/src/cache.c
+			// ignore virtual memory access fault
+			uintptr_t ms1 = 0, ms2 = 0;
+			__asm__ __volatile__(
+				"csrr %0, mtvec \n\t"
+				"la %1, 1f \n\t"
+				"csrw mtvec, %1 \n\t"
+				".insn i 0x73, 0, x0, %2, -0x40 \n\t"
+				".align 2\n\t"
+				"1: \n\t"
+				"csrw mtvec, %0 \n\t"
+				: "+r"(ms1), "+r"(ms2)
+				: "r"(rs1_val));
+			// Using ‘.insn’ pseudo directive:
+			//       '.insn i opcode, func3, rd, rs1, simm12'
 		}
 		regs->mepc += 4;
 		return 0;
