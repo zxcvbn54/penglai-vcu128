@@ -217,7 +217,7 @@ const struct sbi_platform platform = {
 	.platform_version	= SBI_PLATFORM_VERSION(0x0, 0x00),
 	.name			= "rocket-chip-vcu128",
 	.features		= SBI_PLATFORM_DEFAULT_FEATURES,
-	.hart_count		= 1,
+	.hart_count		= 2,
 	.hart_stack_size	= SBI_PLATFORM_DEFAULT_HART_STACK_SIZE,
 	.platform_ops_addr	= (unsigned long)&platform_ops
 };
