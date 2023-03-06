@@ -46,6 +46,7 @@ FW_TEXT_START=0x80000000
 
 # Optional parameter for path to external FDT
 # FW_FDT_PATH="path to platform flattened device tree file"
+FW_FDT_PATH=../u-boot/arch/riscv/dts/rocket-chip-vcu128.dtb
 
 #
 # Dynamic firmware configuration.
@@ -87,4 +88,4 @@ FW_PAYLOAD_OFFSET=0x20000
 endif
 # FW_PAYLOAD_ALIGN=0x1000
 # FW_PAYLOAD_PATH="path to next boot stage binary image file"
-# FW_PAYLOAD_FDT_ADDR=0x82200000
+FW_PAYLOAD_FDT_ADDR=0x82200000
