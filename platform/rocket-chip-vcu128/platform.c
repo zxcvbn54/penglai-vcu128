@@ -11,7 +11,7 @@
 
 /*
  * Include these files as needed.
- * See objects.mk PLATFORM_xxx configuration parameters.
+ * See config.mk PLATFORM_xxx configuration parameters.
  */
 #include <sbi_utils/ipi/aclint_mswi.h>
 #include <sbi_utils/irqchip/plic.h>
@@ -81,7 +81,7 @@ static int platform_console_init(void)
 {
 	/* Example if the generic UART8250 driver is used */
 	return uart8250_init(PLATFORM_UART_ADDR, PLATFORM_UART_INPUT_FREQ,
-			     PLATFORM_UART_BAUDRATE, 2, 1, 0);
+			     PLATFORM_UART_BAUDRATE, 2, 1);
 }
 
 /*
@@ -152,7 +152,7 @@ const struct sbi_platform platform = {
 	.platform_version	= SBI_PLATFORM_VERSION(0x0, 0x00),
 	.name			= "rocket-chip-vcu128",
 	.features		= SBI_PLATFORM_DEFAULT_FEATURES,
-	.hart_count		= PLATFORM_HART_COUNT,
+	.hart_count		= 1,
 	.hart_stack_size	= SBI_PLATFORM_DEFAULT_HART_STACK_SIZE,
 	.platform_ops_addr	= (unsigned long)&platform_ops
 };
